@@ -18,8 +18,12 @@ public class GroupEndPoint extends AbstractEndPoint {
 	}
 
 	// get avec Group
-	public List<Group> listToto() {
-		return groupDao.getAll();
+	public List<Group> listGroups() {
+		List<Group> groups = groupDao.getAll();
+		for (Group group : groups) {
+			group.users.addAll(userDao.getUsersByGroup(group.id));
+		}
+		return groups;
 	}
 
 	// post avec Group
