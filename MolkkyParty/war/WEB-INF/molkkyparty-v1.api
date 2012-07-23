@@ -1,0 +1,320 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://molkkyparty.appspot.com/_ah/api",
+  "name" : "molkkyparty",
+  "version" : "v1",
+  "description" : "",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "http://molkkyparty.appspot.com/_ah/spi",
+    "deadline" : 10.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "molkkyparty.getPopulation" : {
+      "path" : "populate",
+      "httpMethod" : "GET",
+      "rosyMethod" : "PopulateEndPoint.getPopulation",
+      "request" : {
+        "parameters" : {
+          "type" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.removeGroup" : {
+      "path" : "group/{id}",
+      "httpMethod" : "DELETE",
+      "rosyMethod" : "GroupEndPoint.removeGroup",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.getGroup" : {
+      "path" : "group/{id}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "GroupEndPoint.getGroup",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.insertGroup" : {
+      "path" : "group",
+      "httpMethod" : "POST",
+      "rosyMethod" : "GroupEndPoint.insertGroup",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.listToto" : {
+      "path" : "group",
+      "httpMethod" : "GET",
+      "rosyMethod" : "GroupEndPoint.listToto",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.updateGroup" : {
+      "path" : "group",
+      "httpMethod" : "PUT",
+      "rosyMethod" : "GroupEndPoint.updateGroup",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.getUser" : {
+      "path" : "user/{id}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndPoint.getUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.listUser" : {
+      "path" : "user",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndPoint.listUser",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.updateUser" : {
+      "path" : "user",
+      "httpMethod" : "PUT",
+      "rosyMethod" : "UserEndPoint.updateUser",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.insertUser" : {
+      "path" : "user",
+      "httpMethod" : "POST",
+      "rosyMethod" : "UserEndPoint.insertUser",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.removeUser" : {
+      "path" : "user/{id}",
+      "httpMethod" : "DELETE",
+      "rosyMethod" : "UserEndPoint.removeUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Message" : {
+        "id" : "Message",
+        "type" : "object",
+        "properties" : {
+        }
+      },
+      "Group" : {
+        "id" : "Group",
+        "type" : "object",
+        "properties" : {
+        }
+      },
+      "Groups" : {
+        "id" : "Groups",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Group"
+            }
+          }
+        }
+      },
+      "User" : {
+        "id" : "User",
+        "type" : "object",
+        "properties" : {
+        }
+      },
+      "Users" : {
+        "id" : "Users",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "User"
+            }
+          }
+        }
+      }
+    },
+    "methods" : {
+      "PopulateEndPoint.getPopulation" : {
+        "response" : {
+          "$ref" : "Message"
+        }
+      },
+      "GroupEndPoint.removeGroup" : {
+        "response" : {
+          "$ref" : "Group"
+        }
+      },
+      "GroupEndPoint.getGroup" : {
+        "response" : {
+          "$ref" : "Group"
+        }
+      },
+      "GroupEndPoint.insertGroup" : {
+        "request" : {
+          "$ref" : "Group"
+        },
+        "response" : {
+          "$ref" : "Group"
+        }
+      },
+      "GroupEndPoint.listToto" : {
+        "response" : {
+          "type" : "object",
+          "$ref" : "Groups"
+        }
+      },
+      "GroupEndPoint.updateGroup" : {
+        "request" : {
+          "$ref" : "Group"
+        },
+        "response" : {
+          "$ref" : "Group"
+        }
+      },
+      "UserEndPoint.getUser" : {
+        "response" : {
+          "$ref" : "User"
+        }
+      },
+      "UserEndPoint.listUser" : {
+        "response" : {
+          "type" : "object",
+          "$ref" : "Users"
+        }
+      },
+      "UserEndPoint.updateUser" : {
+        "request" : {
+          "$ref" : "User"
+        },
+        "response" : {
+          "$ref" : "User"
+        }
+      },
+      "UserEndPoint.insertUser" : {
+        "request" : {
+          "$ref" : "User"
+        },
+        "response" : {
+          "$ref" : "User"
+        }
+      },
+      "UserEndPoint.removeUser" : {
+        "response" : {
+          "$ref" : "User"
+        }
+      }
+    }
+  }
+}
