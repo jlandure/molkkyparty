@@ -18,20 +18,24 @@ public class UserEndPoint extends AbstractEndPoint {
 	// get avec User
 	public List<User> listUser() {
 		return userDao.getAll();
+		// return userDao.getAll();
 	}
 
 	// post avec User
-	public User insertUser(User User) {
-		return userDao.save(User);
+	public User insertUser(User user) {
+		System.out.println("insert de fait" + user.login);
+		return userDao.save(user);
 	}
 
 	// put avec User
-	public User updateUser(User User) {
-		return userDao.save(User);
+	public User updateUser(User user) {
+		System.out.println("update de fait");
+		return userDao.save(user);
 	}
 
 	// delete avec User
 	public User removeUser(@Named("id") Long id) {
+		System.out.println("remove de fait");
 		return userDao.getAndDelete(id);
 	}
 }
