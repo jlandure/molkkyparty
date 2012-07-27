@@ -1,41 +1,56 @@
 package com.scoringapps.molkkyparty.api;
 
-import java.util.List;
-
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.google.api.server.spi.config.Api;
 import com.scoringapps.molkkyparty.entity.User;
+import com.scoringapps.molkkyparty.util.ListItemsWrapper;
 
 @Api(name = "molkkyparty")
+@Path("/molkkyparty/v1/user")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class UserEndPoint extends AbstractEndPoint {
 
 	// get avec User/{id}
-	public User getUser(@Named("id") Long id) {
+	@GET
+	@Path("/{id}")
+	public User getUser(@Named("id") @PathParam("id") Long id) {
 		return userDao.get(id);
 	}
 
 	// get avec User
-	public List<User> listUser() {
-		return userDao.getAll();
+	@GET
+	public ListItemsWrapper<User> listUser() {
+		return new ListItemsWrapper(userDao.getAll());
 		// return userDao.getAll();
 	}
 
 	// post avec User
+	@POST
 	public User insertUser(User user) {
-		System.out.println("insert de fait" + user.login);
+		System.out.println("insert de fait" + user.name);
 		return userDao.save(user);
 	}
 
 	// put avec User
+	@PUT
 	public User updateUser(User user) {
-		System.out.println("update de fait");
 		return userDao.save(user);
 	}
 
 	// delete avec User
+	@DELETE
 	public User removeUser(@Named("id") Long id) {
-		System.out.println("remove de fait");
 		return userDao.getAndDelete(id);
 	}
 }

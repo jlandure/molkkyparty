@@ -3,6 +3,7 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	
+		<!--
 	<servlet>
 		<servlet-name>SystemServiceServlet</servlet-name>
 		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
@@ -10,24 +11,26 @@
 			<param-name>services</param-name>
 			<param-value>com.scoringapps.molkkyparty.api.PopulateEndPoint,com.scoringapps.molkkyparty.api.GroupEndPoint,com.scoringapps.molkkyparty.api.UserEndPoint</param-value>
 		</init-param>
-		<!--
+	</servlet>
+		-->
+		<servlet>
+		<servlet-name>SystemServiceServlet</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>com.scoringapps.molkkyparty.api.UserEndPointBefore,com.scoringapps.molkkyparty.api.PopulateEndPoint,com.scoringapps.molkkyparty.api.GroupEndPoint</param-value>
+            <param-value>com.scoringapps.molkkyparty.api</param-value>
         </init-param>
         <init-param>
   			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
 			<param-value>true</param-value>
 		</init-param>
         <load-on-startup>1</load-on-startup>
-		-->
-	</servlet>
+        </servlet>
 	<servlet-mapping>
 		<servlet-name>SystemServiceServlet</servlet-name>
-		<url-pattern>/_ah/spi/*</url-pattern>
 		<!--
-		<url-pattern>/_ah/api/*</url-pattern>
+		<url-pattern>/_ah/spi/*</url-pattern>
 		-->
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 </web-app>
