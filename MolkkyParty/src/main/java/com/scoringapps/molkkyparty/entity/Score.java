@@ -13,6 +13,9 @@ public class Score {
 	public Integer[] scores;
 
 	@Unindexed
+	public Integer[] croix;
+
+	@Unindexed
 	public Long[] idUsers;
 
 	public Long idGroup;

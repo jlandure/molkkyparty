@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.googlecode.objectify.Query;
 import com.googlecode.objectify.util.DAOBase;
+import com.scoringapps.molkkyparty.entity.Score;
 import com.scoringapps.molkkyparty.entity.User;
 
 public class GenericDao<T> extends DAOBase {
@@ -57,6 +58,12 @@ public class GenericDao<T> extends DAOBase {
 
 	public List<User> getUsersByGroup(Long idGroup) {
 		return ofy().query(User.class)//
+				.filter("idGroup", idGroup)//
+				.list();
+	}
+
+	public List<Score> getScoresByGroup(Long idGroup) {
+		return ofy().query(Score.class)//
 				.filter("idGroup", idGroup)//
 				.list();
 	}
