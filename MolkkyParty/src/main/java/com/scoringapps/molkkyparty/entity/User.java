@@ -27,7 +27,7 @@ public class User implements Comparable<User> {
 
 	@Override
 	public int compareTo(User o) {
-		return this.points.compareTo(o.points);
+		return o.points.compareTo(this.points);
 	}
 
 }

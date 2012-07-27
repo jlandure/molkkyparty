@@ -39,6 +39,7 @@ public class UserEndPoint extends AbstractEndPoint {
 	@POST
 	public User insertUser(User user) {
 		System.out.println("insert de fait" + user.name);
+		user.nbMatch = 0;
 		return userDao.save(user);
 	}
 

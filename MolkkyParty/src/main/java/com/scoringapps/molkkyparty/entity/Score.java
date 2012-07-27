@@ -1,22 +1,22 @@
 package com.scoringapps.molkkyparty.entity;
 
-import javax.persistence.Id;
+import java.util.List;
 
-import com.googlecode.objectify.annotation.Unindexed;
+import javax.persistence.Id;
 
 public class Score {
 
 	@Id
 	public Long id;
 
-	@Unindexed
-	public Integer[] scores;
+	// @Unindexed
+	public List<Integer> scores;
 
-	@Unindexed
-	public Integer[] croix;
+	// @Unindexed
+	public List<Integer> croix;
 
-	@Unindexed
-	public Long[] idUsers;
+	// @Unindexed
+	public List<Long> idUsers;
 
 	public Long idGroup;
 }

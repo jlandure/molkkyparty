@@ -67,4 +67,5 @@ public class GenericDao<T> extends DAOBase {
 				.filter("idGroup", idGroup)//
 				.list();
 	}
+
 }
