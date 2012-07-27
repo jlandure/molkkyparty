@@ -43,24 +43,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "molkkyparty.removeGroup" : {
-      "path" : "group/{id}",
-      "httpMethod" : "DELETE",
-      "rosyMethod" : "GroupEndPoint.removeGroup",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "required" : true,
-            "type" : "string"
-          }
-        },
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "molkkyparty.getGroup" : {
       "path" : "group/{id}",
       "httpMethod" : "GET",
@@ -79,10 +61,46 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "molkkyparty.updateGroup" : {
+    "molkkyparty.removeGroup" : {
+      "path" : "group/{id}",
+      "httpMethod" : "DELETE",
+      "rosyMethod" : "GroupEndPoint.removeGroup",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.getUsersGroup" : {
+      "path" : "group/{idGroup}/users",
+      "httpMethod" : "GET",
+      "rosyMethod" : "GroupEndPoint.getUsersGroup",
+      "request" : {
+        "parameters" : {
+          "idGroup" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.listGroups" : {
       "path" : "group",
-      "httpMethod" : "PUT",
-      "rosyMethod" : "GroupEndPoint.updateGroup",
+      "httpMethod" : "GET",
+      "rosyMethod" : "GroupEndPoint.listGroups",
       "request" : {
         "parameters" : {
         },
@@ -107,10 +125,10 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "molkkyparty.listGroups" : {
+    "molkkyparty.updateGroup" : {
       "path" : "group",
-      "httpMethod" : "GET",
-      "rosyMethod" : "GroupEndPoint.listGroups",
+      "httpMethod" : "PUT",
+      "rosyMethod" : "GroupEndPoint.updateGroup",
       "request" : {
         "parameters" : {
         },
@@ -139,28 +157,10 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "molkkyparty.removeUser" : {
-      "path" : "user/{id}",
-      "httpMethod" : "DELETE",
-      "rosyMethod" : "UserEndPoint.removeUser",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "required" : true,
-            "type" : "string"
-          }
-        },
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "molkkyparty.updateUser" : {
+    "molkkyparty.listUser" : {
       "path" : "user",
-      "httpMethod" : "PUT",
-      "rosyMethod" : "UserEndPoint.updateUser",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndPoint.listUser",
       "request" : {
         "parameters" : {
         },
@@ -185,12 +185,30 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "molkkyparty.listUser" : {
+    "molkkyparty.updateUser" : {
       "path" : "user",
-      "httpMethod" : "GET",
-      "rosyMethod" : "UserEndPoint.listUser",
+      "httpMethod" : "PUT",
+      "rosyMethod" : "UserEndPoint.updateUser",
       "request" : {
         "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "molkkyparty.removeUser" : {
+      "path" : "user/{id}",
+      "httpMethod" : "DELETE",
+      "rosyMethod" : "UserEndPoint.removeUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
         },
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -214,18 +232,6 @@
         "properties" : {
         }
       },
-      "Groups" : {
-        "id" : "Groups",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Group"
-            }
-          }
-        }
-      },
       "User" : {
         "id" : "User",
         "type" : "object",
@@ -243,6 +249,18 @@
             }
           }
         }
+      },
+      "Groups" : {
+        "id" : "Groups",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Group"
+            }
+          }
+        }
       }
     },
     "methods" : {
@@ -251,12 +269,32 @@
           "$ref" : "Message"
         }
       },
+      "GroupEndPoint.getGroup" : {
+        "response" : {
+          "$ref" : "Group"
+        }
+      },
       "GroupEndPoint.removeGroup" : {
         "response" : {
           "$ref" : "Group"
         }
       },
-      "GroupEndPoint.getGroup" : {
+      "GroupEndPoint.getUsersGroup" : {
+        "response" : {
+          "type" : "object",
+          "$ref" : "Users"
+        }
+      },
+      "GroupEndPoint.listGroups" : {
+        "response" : {
+          "type" : "object",
+          "$ref" : "Groups"
+        }
+      },
+      "GroupEndPoint.insertGroup" : {
+        "request" : {
+          "$ref" : "Group"
+        },
         "response" : {
           "$ref" : "Group"
         }
@@ -269,26 +307,21 @@
           "$ref" : "Group"
         }
       },
-      "GroupEndPoint.insertGroup" : {
-        "request" : {
-          "$ref" : "Group"
-        },
-        "response" : {
-          "$ref" : "Group"
-        }
-      },
-      "GroupEndPoint.listGroups" : {
-        "response" : {
-          "type" : "object",
-          "$ref" : "Groups"
-        }
-      },
       "UserEndPoint.getUser" : {
         "response" : {
           "$ref" : "User"
         }
       },
-      "UserEndPoint.removeUser" : {
+      "UserEndPoint.listUser" : {
+        "response" : {
+          "type" : "object",
+          "$ref" : "Users"
+        }
+      },
+      "UserEndPoint.insertUser" : {
+        "request" : {
+          "$ref" : "User"
+        },
         "response" : {
           "$ref" : "User"
         }
@@ -301,18 +334,9 @@
           "$ref" : "User"
         }
       },
-      "UserEndPoint.insertUser" : {
-        "request" : {
-          "$ref" : "User"
-        },
+      "UserEndPoint.removeUser" : {
         "response" : {
           "$ref" : "User"
-        }
-      },
-      "UserEndPoint.listUser" : {
-        "response" : {
-          "type" : "object",
-          "$ref" : "Users"
         }
       }
     }

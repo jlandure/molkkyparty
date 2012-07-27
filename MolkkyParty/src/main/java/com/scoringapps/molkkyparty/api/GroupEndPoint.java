@@ -5,7 +5,9 @@ import java.util.List;
 import javax.inject.Named;
 
 import com.google.api.server.spi.config.Api;
+import com.google.api.server.spi.config.ApiMethod;
 import com.scoringapps.molkkyparty.entity.Group;
+import com.scoringapps.molkkyparty.entity.User;
 
 @Api(name = "molkkyparty")
 public class GroupEndPoint extends AbstractEndPoint {
@@ -16,6 +18,13 @@ public class GroupEndPoint extends AbstractEndPoint {
 		group.users.addAll(userDao.getUsersByGroup(id));
 		return group;
 	}
+	
+	// get avec Group/{id}/user
+	@ApiMethod(path = "group/{idGroup}/users")
+	public List<User> getUsersGroup(@Named("idGroup") Long id) {
+		return userDao.getUsersByGroup(id);
+	}
+	
 
 	// get avec Group
 	public List<Group> listGroups() {

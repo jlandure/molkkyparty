@@ -1,0 +1,224 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>MolkkyParty</title>
+    <meta name="description" content="MolkkyParty">
+    <meta name="author" content="JLE">
+
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+    <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+ 
+          <a class="brand" href="#">MolkkyParty - JS</a>
+              <ul class="nav">
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					Joueurs
+					<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="#">Ajouter un joueur</a>
+						</li>
+						<li>
+							<a href="group.html">Statistiques</a>
+						</li>
+					</ul>
+				</li>
+				<li class="active"><a href="#">Matchs</a></li>
+				<li><a href="#">Classement</a></li>
+				<li><a href="#">Bareme</a></li>
+				</ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span4">
+          <h1>Nouveau Match</h1>
+          <div id="match_form">
+          
+		  <input type="hidden" id="nbplayers" value="1">
+          
+            <p id="spinner"></p>
+          
+                      <form class="well form-inline">
+					    
+						<input type="text" class="input-small" placeholder="Email">
+						<input type="password" class="input-small" placeholder="Password">
+						<label class="checkbox">
+						<input type="checkbox"> Remember me
+						</label>
+						<button id="add_player" class="btn">Ajouter un autre joueur</button>
+					  </form>
+				<p id="spinner"></p>
+				<div align="right">
+					<button id="saveScore" class="btn btn-primary">Enregistrer</button>
+				</div>
+			</div>
+        </div>
+		<div id="alert_content">
+		</div>
+		
+       
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>
+          <img src="https://developers.google.com/images/developers-logo.png" class="quimby_search_image">  &copy; Google 2012
+
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+
+    <script src="js/libs/bootstrap/bootstrap.min.js"></script>
+
+	
+	<script type="text/javascript">	
+	
+	var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
+	alert("begin");
+		//remplir le formulaire d'un joueur
+		$.ajax({
+		  url: "http://localhost:8888/_ah/api/molkkyparty/v1/group/1/users",
+		  dataType: 'json',
+		  contentType: 'application/json',
+		  type: "GET",
+		  success: function(data) {
+			preFillUserScore(data);
+		  },
+		  error: function(xhr, ajaxOptions, thrownError) {
+			console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
+			$('<h3/>', {
+				html: "Could not find beers"
+			  }).appendTo('#results');
+		  }
+		 
+		});
+	
+	
+	
+	$("#add_player").click(function() {
+	
+	
+	});
+	
+	$("#saveScore").click(function() {
+			alert("Score to save.");
+			console.log("Going to save the score...");
+			var features = {};
+
+			// extract all the info from the form's fields
+			features['login']=$('#login').val();
+			features['name']=$('#username').val();
+			features['email']=$('#usermail').val();
+			features['idGroup']=$('#usergroup').val();;
+			
+			$.ajax({
+			  url: apiUrl,
+			  dataType: 'json',
+			  contentType: 'application/json',
+			  type: "POST",
+			  data: JSON.stringify(features),
+			  success: function(data) {
+				alert(data);
+			  },
+			  error: function(xhr, ajaxOptions, thrownError) {
+				console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
+				$('<h3/>', {
+					html: "Could not find beers"
+				  }).appendTo('#results');
+			  }
+ 
+			});
+	});
+	
+
+function preFillUserScore(data) {
+	
+  if (data && data.items) { 
+  alert("begin2");
+    var users = data.items;
+    var items = [];
+    
+	$.each(users, function(key, val) {
+	
+		alert("login = " + val.login);
+        
+	});
+
+	alert("end");
+	
+	/*
+	var UserDiv = "<div id='player_" + $('#nbplayers').val() + "'>";
+	var UserFormScore = "<form class='well form-inline'>";
+	var UserSelect = "<select id='userselect_" + $('#nbplayers').val() + "'>";
+	
+	//							<option value="1">Euriware 2012</option>
+		//					</select>
+    $.each(users, function(key, val) {
+		*/
+		
+		
+		/*
+		<form class="well form-inline">
+					    
+		<input type="text" class="input-small" placeholder="Email">
+		<input type="password" class="input-small" placeholder="Password">
+		<label class="checkbox">
+		<input type="checkbox"> Remember me
+		</label>
+		<button id="add_player" class="btn">Ajouter un autre joueur</button>
+		</form>
+		*/
+		
+		
+		/*
+        
+        for (var prop in val) {
+        	UsersDetails += prop + ": " + val[prop] + "<br/>";
+        }
+        UsersDetails += "</pre></div>";
+        items.push('<li> Users' + 
+          '</span> <br/>' + UsersDetails + '</li>');
+      });
+
+    $('<ol/>', {
+      'class': 'beerItem',
+      html: items.join('')
+    }).appendTo('#results');
+	*/
+	
+  }
+}
+	
+</script> 
+  </body>
+</html>

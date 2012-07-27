@@ -31,22 +31,22 @@
  
           <a class="brand" href="#">MolkkyParty - JS</a>
               <ul class="nav">
-				<li class="dropdown">
+				<li class="dropdown active">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					Joueurs
 					<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="adduser.html">Ajouter un joueur</a>
+							<a href="#">Ajouter un joueur</a>
 						</li>
 						<li>
-							<a href="#">Statistiques</a>
+							<a href="group.html">Statistiques</a>
 						</li>
 					</ul>
 				</li>
 				<li><a href="#">Matchs</a></li>
-				<li class="active"><a href="#">Classement</a></li>
+				<li><a href="#">Classement</a></li>
 				<li><a href="#">Bareme</a></li>
 				</ul>
         </div>
@@ -57,12 +57,42 @@
 
       <div class="row">
         <div class="span4">
-          <h1>Data</h1>
-          <div id="results">
+          <h1>Nouvel utilisateur</h1>
+          <div id="retour_user_save">
+          
+          
             <p id="spinner"></p>
-          </div>
+          
+                  <div class="form-vertical">
+    				<fieldset>
+						<div class="control-group">
+							<input type="text" class="input-small" placeholder="Login" id="login"/>
+						</div>
+						<div class="control-group">
+							<input type="text" class="input-large" placeholder="Nom complet" id="username"/>
+						</div>
+						<div class="control-group">
+							<input type="text" class="input-large" placeholder="Email" id="usermail"/>
+						</div>
+						<div class="control-group form-inline">
+							<label class="control-label" for="select01">Groupe </label>
+							<select id="usergroup" disabled="">
+								<option value="1">Euriware 2012</option>
+							</select>
+						</div>	
+						
+					</fieldset>
+    			</div>
+				<p id="spinner"></p>
+				<div align="right">
+					<button id="saveUser" class="btn btn-primary">Enregistrer</button>
+				</div>
+			</div>
         </div>
-
+		<div id="alert_content">
+		</div>
+		
+       
       </div>
 
       <hr>
@@ -80,7 +110,41 @@
 
     <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 
-    <script src="js/script_1.js"></script>
+	
+	<script type="text/javascript">	
+	
+	var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/user";
+	
+	$("#saveUser").click(function() {
+			alert("Handler for .click() called.");
+			console.log("Going to save the user...");
+			var features = {};
 
+			// extract all the info from the form's fields
+			features['login']=$('#login').val();
+			features['name']=$('#username').val();
+			features['email']=$('#usermail').val();
+			features['idGroup']=$('#usergroup').val();;
+			
+$.ajax({
+  url: apiUrl,
+  dataType: 'json',
+  contentType: 'application/json',
+  type: "POST",
+  data: JSON.stringify(features),
+  success: function(data) {
+    alert(data);
+  },
+  error: function(xhr, ajaxOptions, thrownError) {
+    console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
+    $('<h3/>', {
+        html: "Could not find beers"
+      }).appendTo('#results');
+  }
+ 
+});
+});
+		
+</script> 
   </body>
 </html>
