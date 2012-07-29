@@ -56,16 +56,20 @@
     <div class="container">
 
       <div class="row">
-        <div class="span4">
+        
           <h1>Nouveau Match</h1>
-          <div id="match_form">
+          
           
 		  <input type="hidden" id="nbplayers" value="1">
           
             <p id="spinner"></p>
-          
-                      <form class="well form-inline">
-					    
+          			  <div id="match_form">
+                      	<form class="well form-inline">
+					    <label>test</label>
+					    <select class="width:100px">
+					    	<option value='1'>1</option>
+							<option value='1'>1</option>
+						</select>
 						<input type="text" class="input-small" placeholder="Email">
 						<input type="password" class="input-small" placeholder="Password">
 						<label class="checkbox">
@@ -73,12 +77,13 @@
 						</label>
 						<button id="add_player" class="btn">Ajouter un autre joueur</button>
 					  </form>
+					  </div>
 				<p id="spinner"></p>
 				<div align="right">
 					<button id="saveScore" class="btn btn-primary">Enregistrer</button>
 				</div>
-			</div>
-        </div>
+			
+        
 		<div id="alert_content">
 		</div>
 		
@@ -104,7 +109,8 @@
 	<script type="text/javascript">	
 	
 	var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
-	alert("begin");
+
+/*
 		//remplir le formulaire d'un joueur
 		$.ajax({
 		  url: "http://localhost:8888/_ah/api/molkkyparty/v1/group/1/users",
@@ -112,6 +118,7 @@
 		  contentType: 'application/json',
 		  type: "GET",
 		  success: function(data) {
+		  	$('#match_form').html('');
 			preFillUserScore(data);
 		  },
 		  error: function(xhr, ajaxOptions, thrownError) {
@@ -123,7 +130,7 @@
 		 
 		});
 	
-	
+*/	
 	
 	$("#add_player").click(function() {
 	
@@ -154,7 +161,7 @@
 				console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
 				$('<h3/>', {
 					html: "Could not find beers"
-				  }).appendTo('#results');
+				  }).appendTo('#match_form');
 			  }
  
 			});
@@ -164,27 +171,38 @@
 function preFillUserScore(data) {
 	
   if (data && data.items) { 
-  alert("begin2");
+	alert("nbplayers = " + $('#nbplayers').val());
     var users = data.items;
     var items = [];
     
-	$.each(users, function(key, val) {
-	
-		alert("login = " + val.login);
-        
-	});
-
-	alert("end");
-	
-	/*
+    
 	var UserDiv = "<div id='player_" + $('#nbplayers').val() + "'>";
 	var UserFormScore = "<form class='well form-inline'>";
+	var UserLabel= "Joueur " + $('#nbplayers').val();
+	
 	var UserSelect = "<select id='userselect_" + $('#nbplayers').val() + "'>";
 	
-	//							<option value="1">Euriware 2012</option>
-		//					</select>
-    $.each(users, function(key, val) {
-		*/
+	$.each(users, function(key, user) {
+	
+        UserSelect += "<option value='" + user.id + "'>"+user.login+"</option>";
+        
+	});
+	UserSelect += "</select>";
+
+    var UserPointsInput="<input id='userpoints_" + $('#nbplayers').val() + "' type='text' class='input-small' placeholder='Score'>";
+	var UserCrossSelect = "<select id='crossSelect_" + $('#nbplayers').val() + "'>";
+	UserCrossSelect +="<option value='1'>1</option>";
+	UserCrossSelect +="<option value='2'>2</option>";
+	UserCrossSelect +="<option value='3'>3</option>";
+	UserCrossSelect +="<option value='4'>Eliminé !</option>";
+	UserCrossSelect +="</select>";
+
+   items.push(UserDiv + UserFormScore + UserLabel+ UserSelect +UserPointsInput + UserCrossSelect + '</form></div>');
+      
+	
+	$('<h3/>', {
+        html: items.join('')
+      }).appendTo('#match_form');
 		
 		
 		/*
