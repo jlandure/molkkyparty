@@ -62,7 +62,8 @@
           
             <p id="spinner"></p>
           			  
-					  <div class="span8">
+					  <div class="span7">
+					  <p id="spinner"></p>
 						<form class="form-horizontal">
 							<fieldset>
 							  <div class="control-group">
@@ -71,7 +72,6 @@
 									<div class="input-prepend input-append">
 										<span class="add-on">Saisir un match avec </span>
 										<select id='nbplayers' style="width:50px">
-											<option value="1">1</option>
 											<option value="2">2</option>
 											<option value="3">3</option>
 											<option value="4">4</option>
@@ -96,12 +96,12 @@
 							
 						</form>
 						</h3>
+						<div align="right">
+							<button id="saveScore" class="btn btn-primary">Enregistrer</button>
+						</div>
 					</div>
 
-				<p id="spinner"></p>
-				<div align="right">
-					<button id="saveScore" class="btn btn-primary">Enregistrer</button>
-				</div>
+				
 			
         
 		<div id="alert_content">
@@ -137,7 +137,7 @@
 		  contentType: 'application/json',
 		  type: "GET",
 		  success: function(data) {
-			alert('appel ajax json');
+			$('#match_form').html('');
 			preFillUserScore(data);
 		  },
 		  error: function(xhr, ajaxOptions, thrownError) {
@@ -152,10 +152,9 @@
 	
 	
 	$("#saveScore").click(function() {
-		var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
-
-			alert("Score to save.");
+		
 			console.log("Going to save the score...");
+			/*
 			var features = {};
 
 			// extract all the info from the form's fields
@@ -163,6 +162,34 @@
 			features['name']=$('#username').val();
 			features['email']=$('#usermail').val();
 			features['idGroup']=$('#usergroup').val();;
+			*/
+			
+			//recuperation logins
+			var logins = [];
+			$(".userselect").each(function (i) {
+        		logins.push(this.value);
+      		});
+      		alert('logins = ' + logins);
+      		
+      		
+      		
+			//recuperation scores
+			var scores = [];
+			$(".userpts").each(function (i) {
+        		scores.push(this.value);
+      		});
+      		alert('scores = ' + scores);      		
+      		
+      		//recuperation croix
+      		var croix = [];
+			$(".crossselect").each(function (i) {
+        		croix.push(this.value);
+      		});
+			alert('croix = ' + croix);
+			
+			
+			/*
+			var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
 			
 			$.ajax({
 			  url: apiUrl,
@@ -180,8 +207,10 @@
 				  }).appendTo('#first_player');
 			  }
  
-			});
+			 });
+			 */
 	});
+	
 	
 
 function preFillUserScore(data) {
@@ -191,46 +220,38 @@ function preFillUserScore(data) {
 	
 	var tmp = parseInt($('#nbplayers').val());
 	
-	for (i=1; i<=tmp+1; i++){ 
+	for (i=1; i<=tmp; i++){ 
+		var users = data.items;
+    	var items = [];
+    
+    
+		var UserDiv = "<div id='userrow_" +i +"' class='control-group'>";
+		var UserLabel= "<label>Joueur " +i + " </label>";
+	
+		var UserSelect = "<select class='userselect' style='width:100px' id='userselect_" +i +"'>";
+		UserSelect += "<option disabled selected style='display:none' value=''>login</option>";
 		
-	}
 	
-    var users = data.items;
-    var items = [];
-    
-    
-	var UserDiv = "<div id='userrow' class='control-group'>";
-	var UserFormScore = "<form class='well form-inline'>";
-	var UserLabel= "<label>Joueur " + $('#nbplayers').val() + "</label>";
+		$.each(users, function(key, user) {
 	
-	var UserSelect = "<select style='width:100px' id='userselect_" + $('#nbplayers').val() + "'>";
-	
-	$.each(users, function(key, user) {
-	
-        UserSelect += "<option value='" + user.id + "'>"+user.login+"</option>";
+        	UserSelect += "<option value='" + user.id + "'>"+user.login+"</option>";
         
-	});
-	UserSelect += "</select>";
+		});
+		UserSelect += "</select>";
 
-    var UserPointsInput="<input id='userpoints_" + $('#nbplayers').val() + "' type='text' class='input-small' style='width:50px' placeholder='Score'>";
-	var UserCrossSelect = "<select style='width:120px' id='crossSelect_" + $('#nbplayers').val() + "'>";
-	UserCrossSelect +="<option value='1'>1</option>";
-	UserCrossSelect +="<option value='2'>2</option>";
-	UserCrossSelect +="<option value='3'>3</option>";
-	UserCrossSelect +="<option value='4'>Elimination !</option>";
-	UserCrossSelect +="</select>";
-
+    	var UserPointsInput="<input id='userpoints_" +i +"' type='text' class='input-small userpts' style='width:50px' placeholder='Score'>";
+		var UserCrossSelect = "<select class='crossselect' style='width:120px' id='crossSelect_" +i +"'>";
+		UserCrossSelect += "<option disabled selected style='display:none' value=''>Nb croix</option>";
+		UserCrossSelect +="<option value='1'>1</option>";
+		UserCrossSelect +="<option value='2'>2</option>";
+		UserCrossSelect +="<option value='3'>3</option>";
+		UserCrossSelect +="<option value='4'>Elimination !</option>";
+		UserCrossSelect +="</select>";
 	
+		$(UserDiv+UserLabel+ UserSelect +UserPointsInput + UserCrossSelect +"</div>").appendTo('#match_form');
 	
-   //items.push(UserDiv + UserFormScore + UserLabel+ UserSelect +UserPointsInput + UserCrossSelect + '</form></div>');
-   //items.push(UserFormScore + UserLabel+ UserSelect +UserPointsInput + UserCrossSelect + '</form>');
-    
-	
-	//$(html: items.join('')).appendTo('#first_player');
-	$(UserDiv+UserLabel+ UserSelect +UserPointsInput + UserCrossSelect +"</div>").appendTo('#match_form');
-	
-
-	
+	}
+		
   }
 }
 	
