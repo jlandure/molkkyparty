@@ -60,24 +60,44 @@
           <h1>Nouveau Match</h1>
           
           
-		  <input type="hidden" id="nbplayers" value="1">
-          
             <p id="spinner"></p>
-          			  <div id="match_form">
-                      	<form class="well form-inline">
-					    <label>test</label>
-					    <select class="width:100px">
-					    	<option value='1'>1</option>
-							<option value='1'>1</option>
-						</select>
-						<input type="text" class="input-small" placeholder="Email">
-						<input type="password" class="input-small" placeholder="Password">
-						<label class="checkbox">
-						<input type="checkbox"> Remember me
-						</label>
-						<button id="add_player" class="btn">Ajouter un autre joueur</button>
-					  </form>
-					  </div>
+          			  
+					  <div class="span8">
+						<form class="form-horizontal">
+							<fieldset>
+							  <div class="control-group">
+								
+								<div class="controls">
+									<div class="input-prepend input-append">
+										<span class="add-on">Saisir un match avec </span>
+										<select id='nbplayers' style="width:50px">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+										</select>
+										<span class="add-on">joueurs</span>
+										<button id="add_players" class="btn" type="button">Go!</button>
+									</div>
+								</div>
+							  </div>
+							 </fieldset>
+						</form>
+					  
+						<h3>
+						<form id="match_form" class="well form-inline">
+							
+							
+						</form>
+						</h3>
+					</div>
+
 				<p id="spinner"></p>
 				<div align="right">
 					<button id="saveScore" class="btn btn-primary">Enregistrer</button>
@@ -108,9 +128,8 @@
 	
 	<script type="text/javascript">	
 	
-	var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
-
-/*
+	
+	$("#add_players").click(function() {
 		//remplir le formulaire d'un joueur
 		$.ajax({
 		  url: "http://localhost:8888/_ah/api/molkkyparty/v1/group/1/users",
@@ -118,26 +137,23 @@
 		  contentType: 'application/json',
 		  type: "GET",
 		  success: function(data) {
-		  	$('#match_form').html('');
+			alert('appel ajax json');
 			preFillUserScore(data);
 		  },
 		  error: function(xhr, ajaxOptions, thrownError) {
 			console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
 			$('<h3/>', {
-				html: "Could not find beers"
-			  }).appendTo('#results');
+				html: "Could not load score sheet"
+			  }).appendTo('#match_form');
 		  }
 		 
 		});
-	
-*/	
-	
-	$("#add_player").click(function() {
-	
-	
 	});
 	
+	
 	$("#saveScore").click(function() {
+		var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
+
 			alert("Score to save.");
 			console.log("Going to save the score...");
 			var features = {};
@@ -161,7 +177,7 @@
 				console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
 				$('<h3/>', {
 					html: "Could not find beers"
-				  }).appendTo('#match_form');
+				  }).appendTo('#first_player');
 			  }
  
 			});
@@ -171,16 +187,23 @@
 function preFillUserScore(data) {
 	
   if (data && data.items) { 
-	alert("nbplayers = " + $('#nbplayers').val());
+	
+	
+	var tmp = parseInt($('#nbplayers').val());
+	
+	for (i=1; i<=tmp+1; i++){ 
+		
+	}
+	
     var users = data.items;
     var items = [];
     
     
-	var UserDiv = "<div id='player_" + $('#nbplayers').val() + "'>";
+	var UserDiv = "<div id='userrow' class='control-group'>";
 	var UserFormScore = "<form class='well form-inline'>";
-	var UserLabel= "Joueur " + $('#nbplayers').val();
+	var UserLabel= "<label>Joueur " + $('#nbplayers').val() + "</label>";
 	
-	var UserSelect = "<select id='userselect_" + $('#nbplayers').val() + "'>";
+	var UserSelect = "<select style='width:100px' id='userselect_" + $('#nbplayers').val() + "'>";
 	
 	$.each(users, function(key, user) {
 	
@@ -189,54 +212,30 @@ function preFillUserScore(data) {
 	});
 	UserSelect += "</select>";
 
-    var UserPointsInput="<input id='userpoints_" + $('#nbplayers').val() + "' type='text' class='input-small' placeholder='Score'>";
-	var UserCrossSelect = "<select id='crossSelect_" + $('#nbplayers').val() + "'>";
+    var UserPointsInput="<input id='userpoints_" + $('#nbplayers').val() + "' type='text' class='input-small' style='width:50px' placeholder='Score'>";
+	var UserCrossSelect = "<select style='width:120px' id='crossSelect_" + $('#nbplayers').val() + "'>";
 	UserCrossSelect +="<option value='1'>1</option>";
 	UserCrossSelect +="<option value='2'>2</option>";
 	UserCrossSelect +="<option value='3'>3</option>";
-	UserCrossSelect +="<option value='4'>Eliminé !</option>";
+	UserCrossSelect +="<option value='4'>Elimination !</option>";
 	UserCrossSelect +="</select>";
 
-   items.push(UserDiv + UserFormScore + UserLabel+ UserSelect +UserPointsInput + UserCrossSelect + '</form></div>');
-      
 	
-	$('<h3/>', {
-        html: items.join('')
-      }).appendTo('#match_form');
-		
-		
-		/*
-		<form class="well form-inline">
-					    
-		<input type="text" class="input-small" placeholder="Email">
-		<input type="password" class="input-small" placeholder="Password">
-		<label class="checkbox">
-		<input type="checkbox"> Remember me
-		</label>
-		<button id="add_player" class="btn">Ajouter un autre joueur</button>
-		</form>
-		*/
-		
-		
-		/*
-        
-        for (var prop in val) {
-        	UsersDetails += prop + ": " + val[prop] + "<br/>";
-        }
-        UsersDetails += "</pre></div>";
-        items.push('<li> Users' + 
-          '</span> <br/>' + UsersDetails + '</li>');
-      });
+	
+   //items.push(UserDiv + UserFormScore + UserLabel+ UserSelect +UserPointsInput + UserCrossSelect + '</form></div>');
+   //items.push(UserFormScore + UserLabel+ UserSelect +UserPointsInput + UserCrossSelect + '</form>');
+    
+	
+	//$(html: items.join('')).appendTo('#first_player');
+	$(UserDiv+UserLabel+ UserSelect +UserPointsInput + UserCrossSelect +"</div>").appendTo('#match_form');
+	
 
-    $('<ol/>', {
-      'class': 'beerItem',
-      html: items.join('')
-    }).appendTo('#results');
-	*/
 	
   }
 }
 	
+
 </script> 
+
   </body>
 </html>
