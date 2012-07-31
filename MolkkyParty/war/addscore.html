@@ -153,62 +153,120 @@
 	
 	$("#saveScore").click(function() {
 		
-			console.log("Going to save the score...");
-			/*
-			var features = {};
-
-			// extract all the info from the form's fields
-			features['login']=$('#login').val();
-			features['name']=$('#username').val();
-			features['email']=$('#usermail').val();
-			features['idGroup']=$('#usergroup').val();;
-			*/
-			
+		
+			var erreur_same_login=false;
+			var erreur_empty_login=false;
 			//recuperation logins
 			var logins = [];
 			$(".userselect").each(function (i) {
-        		logins.push(this.value);
+				if (this.value==''){
+					erreur_empty_login = true;
+					return false;
+				}else if (logins.indexOf(this.value)>-1){
+					erreur_same_login = true;
+					return false;
+				}else{
+					logins.push(this.value);
+				}
       		});
-      		alert('logins = ' + logins);
-      		
-      		
-      		
-			//recuperation scores
-			var scores = [];
-			$(".userpts").each(function (i) {
-        		scores.push(this.value);
-      		});
-      		alert('scores = ' + scores);      		
-      		
-      		//recuperation croix
-      		var croix = [];
-			$(".crossselect").each(function (i) {
-        		croix.push(this.value);
-      		});
-			alert('croix = ' + croix);
+			if (erreur_empty_login){
+				alert("Renseignez tous les logins !");
+			}else if (erreur_same_login){
+				alert("Un même login a été entré plusieurs fois !!");
+			}else{
 			
-			
-			/*
-			var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
-			
-			$.ajax({
-			  url: apiUrl,
-			  dataType: 'json',
-			  contentType: 'application/json',
-			  type: "POST",
-			  data: JSON.stringify(features),
-			  success: function(data) {
-				alert(data);
-			  },
-			  error: function(xhr, ajaxOptions, thrownError) {
-				console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
-				$('<h3/>', {
-					html: "Could not find beers"
-				  }).appendTo('#first_player');
-			  }
- 
-			 });
-			 */
+				//recuperation scores
+				var erreur_score=false;
+				var erreur_score_limit=false;
+				var erreur_empty_score=false;
+				var scores = [];
+				var sorted_scores = [];
+				$(".userpts").each(function (i) {
+					if (this.value==''){
+						erreur_empty_score = true;
+						return false;
+					}else if (this.value>50){
+						erreur_score_limit = true;
+					}else {
+						if (scores.indexOf(this.value)>-1 && this.value==50){
+							erreur_score = true;
+							return false;
+						}else{
+							scores.push(this.value);
+							sorted_scores.push(this.value);
+						}
+					}
+				});
+				if (erreur_empty_score){
+					alert("Renseignez tous les scores !");
+				}else if (erreur_score_limit){
+					alert("Attention !! Score maximum : 50");
+				}else if (erreur_score){
+					alert("Il ne peut y avoir qu'un seul gagnant...");
+				}else{
+				
+					//recuperation croix
+					var erreur_empty_croix=false;
+					var croix = [];
+					$(".crossselect").each(function (i) {
+						if (this.value==''){
+							erreur_empty_score = true;
+							return false;
+						}else {
+							croix.push(this.value);
+						}
+					});
+					if (erreur_empty_score){
+						alert("Renseignez tous les nombres de croix !");
+					}else{
+
+						// tri des scores, qui ordonne les autres tableaux
+						sorted_scores.sort();
+						var ordre = [];
+						for (var i=0;i<scores.length;i++){
+							ordre.push(sorted_scores.indexOf(scores[i]));
+						}
+						alert('sorted_scores = ' + sorted_scores); 
+
+						//tri des logins
+						var sorted_logins = [];
+						for (var i=0;i<ordre.length;i++){
+							sorted_logins[i]=logins[ordre[i]];
+						}
+						alert('sorted_logins = ' + sorted_logins);
+						
+						//tri des croix
+						var sorted_croix = [];
+						for (var i=0;i<ordre.length;i++){
+							sorted_croix[i]=croix[ordre[i]];
+						}
+						alert('sorted_croix = ' + sorted_croix);
+						
+						
+						/*
+						var apiUrl = "http://localhost:8888/_ah/api/molkkyparty/v1/score";
+						
+						$.ajax({
+						  url: apiUrl,
+						  dataType: 'json',
+						  contentType: 'application/json',
+						  type: "POST",
+						  data: JSON.stringify(features),
+						  success: function(data) {
+							alert(data);
+						  },
+						  error: function(xhr, ajaxOptions, thrownError) {
+							console.error("Beer list error: " + xhr.status) + " err: " + thrownError;
+							$('<h3/>', {
+								html: "Could not find beers"
+							  }).appendTo('#first_player');
+						  }
+			 
+						 });
+						 */
+					}
+				}
+			 }
 	});
 	
 	
